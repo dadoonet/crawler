@@ -26,4 +26,3 @@ rbenv shell "$JRUBY_VERSION"
 
 # Check dependencies and install if needed
 check_bundle
-check_yarn

@@ -1,4 +1,4 @@
-#!/usr/bin/env jruby
+#!/usr/bin/env truffleruby
 # frozen_string_literal: true
 
 require 'jar-dependencies'

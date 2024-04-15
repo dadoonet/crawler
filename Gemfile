@@ -53,6 +53,8 @@ group :default, :crawler do
 
   # Used for config file validation
   gem 'json-schema'
+
+  gem 'jar-dependencies', '~> 0.4.1'
 end
 
 # Security updates
@@ -73,30 +75,11 @@ group :crawler do
 end
 
 #---------------------------------------------------------------------------------------------------
-# Development dependencies for Rails environments (but not for the crawler)
-#---------------------------------------------------------------------------------------------------
-group :development do
-  gem 'execjs'
-  gem 'ruby-maven', :require => false
-
-  # Add ffaker to create fake people in demo accounts
-  gem 'ffaker'
-  gem 'rails-erd', :require => false
-end
-
-#---------------------------------------------------------------------------------------------------
 # Development and test dependencies for all environments (including the crawler)
 #---------------------------------------------------------------------------------------------------
 group(*ALL_DEVELOPMENT_ENVS) do
   gem 'rubocop', '1.18.4'
   gem 'rubocop-performance', '1.11.5'
-
-  gem 'ruby-debug-ide'
-  gem 'pry-remote'
-  gem 'pry-nav'
-  gem 'ruby-debug-base', '0.11.0', :platform => 'jruby'
-
-  gem 'tty-prompt', :require => false
 end
 
 group(*ALL_TEST_ENVS) do

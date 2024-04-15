@@ -6,9 +6,9 @@ require_dependency File.join(__dir__, '..', 'http_client')
 module Crawler
   module HttpUtils
     class Response # rubocop:disable Metrics/ClassLength
-      java_import org.apache.hc.core5.util.ByteArrayBuffer
-      java_import org.apache.hc.core5.http.ContentType
-      java_import org.apache.hc.core5.http.message.StatusLine
+      Java.import 'org.apache.hc.core5.util.ByteArrayBuffer'
+      Java.import 'org.apache.hc.core5.http.ContentType'
+      Java.import 'org.apache.hc.core5.http.message.StatusLine'
 
       DEFAULT_BUFFER_SIZE = 4_096
       DEFAULT_MAX_RESPONSE_SIZE = 10_485_760 # 10 MB

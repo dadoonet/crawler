@@ -5,8 +5,8 @@ require_dependency File.join(__dir__, '..', 'http_client')
 module Crawler
   module HttpUtils
     class FilteringDnsResolver
-      java_import org.apache.hc.client5.http.DnsResolver
-      java_import org.apache.hc.client5.http.SystemDefaultDnsResolver
+      Java.import 'org.apache.hc.client5.http.DnsResolver'
+      Java.import 'org.apache.hc.client5.http.SystemDefaultDnsResolver'
 
       include DnsResolver
 

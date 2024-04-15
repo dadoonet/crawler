@@ -2,7 +2,7 @@
 
 module Crawler
   class RobotsTxtParser
-    java_import 'crawlercommons.robots.SimpleRobotRulesParser'
+    Java.import 'crawlercommons.robots.SimpleRobotRulesParser'
 
     def self.robots_txt_to_byte_array(content)
       bytes = content.bytes

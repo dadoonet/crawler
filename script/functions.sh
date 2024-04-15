@@ -134,9 +134,9 @@ function ensure_java_installed() {
 #---------------------------------------------------------------------------------------------------
 function ensure_jruby_installed() {
   JRUBY_VERSION="$1"
-  yellow_echo "Checking if JRuby $JRUBY_VERSION is installed..."
+  yellow_echo "Checking if ruby $JRUBY_VERSION is installed..."
   if [ -z "$(rbenv versions --bare | grep "^$JRUBY_VERSION")" ]; then
-    try_then_error "JRuby version $JRUBY_VERSION is not installed" "script/setup-rubies"
+    try_then_error "Ruby version $JRUBY_VERSION is not installed" "script/setup-rubies"
   fi
   green_echo "Done!"
   echo
@@ -152,19 +152,6 @@ function check_bundle() {
   echo
 }
 
-#---------------------------------------------------------------------------------------------------
-function check_yarn() {
-  yellow_echo "Checking for missing NPM packages..."
-  if ! which yarn; then
-    red_echo "ERROR: yarn is not installed! Please install it by running 'brew install yarn' (or use your OS-specific install methods described here: https://legacy.yarnpkg.com/en/docs/install)."
-    exit 2
-  fi
-  if ! yarn check --integrity > /dev/null; then
-    try_then_error "NPM packages are missing" "yarn install"
-  fi
-  green_echo "Done!"
-  echo
-}
 
 #---------------------------------------------------------------------------------------------------
 function check_git() {

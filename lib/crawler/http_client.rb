@@ -2,17 +2,17 @@
 
 require 'weakref'
 
-java_import java.util.LinkedHashMap
-java_import java.security.KeyStore
-java_import javax.net.ssl.SSLContext
-java_import javax.net.ssl.TrustManagerFactory
-java_import javax.net.ssl.X509TrustManager
+Java.import 'java.util.LinkedHashMap'
+Java.import 'java.security.KeyStore'
+Java.import 'javax.net.ssl.SSLContext'
+Java.import 'javax.net.ssl.TrustManagerFactory'
+Java.import 'javax.net.ssl.X509TrustManager'
 
-java_import org.apache.commons.compress.compressors.brotli.BrotliCompressorInputStream
+Java.import 'org.apache.commons.compress.compressors.brotli.BrotliCompressorInputStream'
 
 #---------------------------------------------------------------------------------------------------
 class BrotliInputStreamFactory
-  java_import org.apache.hc.client5.http.entity.InputStreamFactory
+  Java.import 'org.apache.hc.client5.http.entity.InputStreamFactory'
   include InputStreamFactory
   include Singleton
 
@@ -27,29 +27,29 @@ module Crawler
     # Please note: We cannot have these java_import calls at the top level
     # because it causes conflicts with Manticore's imports of httpclient v4.5
     #
-    java_import org.apache.hc.client5.http.auth.AuthScope
-    java_import org.apache.hc.client5.http.auth.UsernamePasswordCredentials
+    Java.import 'org.apache.hc.client5.http.auth.AuthScope'
+    Java.import 'org.apache.hc.client5.http.auth.UsernamePasswordCredentials'
 
-    java_import org.apache.hc.client5.http.classic.methods.HttpGet
-    java_import org.apache.hc.client5.http.classic.methods.HttpHead
-    java_import org.apache.hc.client5.http.config.RequestConfig
-    java_import org.apache.hc.client5.http.entity.DeflateInputStreamFactory
-    java_import org.apache.hc.client5.http.entity.GZIPInputStreamFactory
+    Java.import 'org.apache.hc.client5.http.classic.methods.HttpGet'
+    Java.import 'org.apache.hc.client5.http.classic.methods.HttpHead'
+    Java.import 'org.apache.hc.client5.http.config.RequestConfig'
+    Java.import 'org.apache.hc.client5.http.entity.DeflateInputStreamFactory'
+    Java.import 'org.apache.hc.client5.http.entity.GZIPInputStreamFactory'
 
-    java_import org.apache.hc.core5.http.io.SocketConfig
-    java_import org.apache.hc.core5.http.HttpHost
-    java_import org.apache.hc.core5.util.TimeValue
+    Java.import 'org.apache.hc.core5.http.io.SocketConfig'
+    Java.import 'org.apache.hc.core5.http.HttpHost'
+    Java.import 'org.apache.hc.core5.util.TimeValue'
 
-    java_import org.apache.hc.client5.http.ssl.DefaultHostnameVerifier
-    java_import org.apache.hc.client5.http.ssl.NoopHostnameVerifier
-    java_import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory
+    Java.import 'org.apache.hc.client5.http.ssl.DefaultHostnameVerifier'
+    Java.import 'org.apache.hc.client5.http.ssl.NoopHostnameVerifier'
+    Java.import 'org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory'
 
-    java_import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider
-    java_import org.apache.hc.client5.http.impl.classic.HttpClientBuilder
-    java_import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder
+    Java.import 'org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider'
+    Java.import 'org.apache.hc.client5.http.impl.classic.HttpClientBuilder'
+    Java.import 'org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder'
 
     # Scoped this import to the class only to avoid conflicts with Ruby's Timeout module
-    java_import org.apache.hc.core5.util.Timeout
+    Java.import 'org.apache.hc.core5.util.Timeout'
 
     # The list of supported Content-Encoding methods to be used for each request
     CONTENT_DECODERS = LinkedHashMap.new.tap do |registry|

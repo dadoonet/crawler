@@ -6,9 +6,9 @@ require_dependency(File.join(__dir__, '..', '..', 'statically_tagged_logger'))
 require_dependency(File.join(__dir__, '..', 'data', 'crawl_result', 'html'))
 require_dependency(File.join(__dir__, '..', 'document_mapper'))
 
-java_import java.io.ByteArrayInputStream
-java_import java.security.cert.CertificateFactory
-java_import java.security.cert.X509Certificate
+Java.import 'java.io.ByteArrayInputStream'
+Java.import 'java.security.cert.CertificateFactory'
+Java.import 'java.security.cert.X509Certificate'
 
 # A crawl config contains all the necessary parameters to start an individual crawl, e.g. the
 # domain(s) and seed url(s), where to output the extracted content, etc.
