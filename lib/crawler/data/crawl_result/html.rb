@@ -33,7 +33,6 @@ module Crawler
           end
         end
 
-        #---------------------------------------------------------------------------------------------
         # Returns the base URL that should be used for all relative links
         def base_url
           @base_url ||= begin
@@ -55,7 +54,6 @@ module Crawler
           end
         end
 
-        #---------------------------------------------------------------------------------------------
         # Returns all links from the document as a set of URL objects
         def extract_links(limit: nil, skip_invalid: false)
           links = Set.new
@@ -89,7 +87,6 @@ module Crawler
           links.to_a.map(&:to_url).map(&:to_s).sort
         end
 
-        #---------------------------------------------------------------------------------------------
         # Returns the canonical URL of the document
         def canonical_url
           canonical_link&.to_url
@@ -101,7 +98,6 @@ module Crawler
           Link.new(base_url: url, link: canonical_url) if canonical_url
         end
 
-        #---------------------------------------------------------------------------------------------
         # Returns +true+ if the page contains a robots nofollow meta tag
         def meta_nofollow?
           !!parsed_content.at_css('meta[name=robots][content*=nofollow]')
@@ -124,7 +120,6 @@ module Crawler
           Crawler::ExtractionUtils.limit_bytesize(description, limit)
         end
 
-        #---------------------------------------------------------------------------------------------
         # Returns the title of the document, cleaned up for indexing
         def document_title(limit: 1000)
           title_tag = parsed_content.css('title').first
@@ -158,7 +153,6 @@ module Crawler
           end.to_a
         end
 
-        #---------------------------------------------------------------------------------------------
         def extract_attribute_value(tag_name, attribute_name)
           parsed_content.css(tag_name)&.attr(attribute_name)&.content
         end
@@ -173,7 +167,6 @@ module Crawler
           end
         end
 
-        #---------------------------------------------------------------------------------------------
         def full_html(enabled: false)
           return unless enabled
 

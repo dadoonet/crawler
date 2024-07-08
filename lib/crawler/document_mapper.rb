@@ -35,7 +35,13 @@ module Crawler
       @config = config
     end
 
-    def document_fields(crawl_result) # rubocop:disable Metrics/AbcSize
+    def document_fields(crawl_result)
+      main_components(crawl_result)
+        .merge(url_components(crawl_result.url))
+        .merge(css_components(crawl_result))
+    end
+
+    def main_components(crawl_result)
       remove_empty_values(
         'title' => crawl_result.document_title(limit: config.max_title_size),
         'body_content' => crawl_result.document_body(limit: config.max_body_size),
@@ -60,6 +66,21 @@ module Crawler
         'url_path_dir2' => path_components[2],
         'url_path_dir3' => path_components[3]
       )
+    end
+
+    def css_components(crawl_result)
+      @config.system_logger.info(@config.extraction_rules)
+      @config.system_logger.info(crawl_result.base_url)
+      @config.system_logger.info(@config.extraction_rules[crawl_result.base_url])
+      @config.system_logger.info(crawl_result.site_url.to_s)
+      @config.system_logger.info(@config.extraction_rules[crawl_result.site_url.to_s])
+
+      @config.extraction_rules[crawl_result.base_url]&.each do |_rules|
+        @config.system_logger.info('Found a rule!')
+        @config.system_logger.info(_rules)
+        # crawl_result.extract_by_selector
+      end
+      {}
     end
 
     private

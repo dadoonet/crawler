@@ -29,7 +29,6 @@ module Crawler
     # The character used to signal that a string has been truncated
     OMISSION = '…'
 
-    #-------------------------------------------------------------------------------------------------
     # Expects a Nokogiri HTML node, returns textual content from the node and all of its children
     def self.node_descendant_text(node, ignore_tags = NON_CONTENT_TAGS) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
       return '' unless node&.present?
@@ -83,13 +82,11 @@ module Crawler
       text.join.squish!
     end
 
-    #-------------------------------------------------------------------------------------------------
     # Returns true, if the node should be replaced with a space when extracting text from a document
     def self.replace_with_whitespace?(node)
       BREAK_ELEMENTS.include?(node.name)
     end
 
-    #-------------------------------------------------------------------------------------------------
     # Limits the size of a given string value down to a given limit (in bytes)
     # This is heavily inspired by https://github.com/rails/rails/pull/27319/files
     def self.limit_bytesize(string, limit)
@@ -106,6 +103,65 @@ module Crawler
           end
         end
       end
+    end
+
+    def self.extract_by_rules(rules, crawl_result)
+      fields = {}
+
+      rules.each do |rule|
+        # skip the rule set if URL doesn't match with its filtering rules
+        next unless match_url_filters?(rule, crawl_result)
+
+        fields.merge!(execute_rule(rule, crawl_result))
+      end
+
+      fields
+    end
+
+    def self.execute_rule(extraction_rule, crawl_result)
+      fields = {}
+
+      extraction_rule.rules.each do |rule|
+        field_name = rule[:field_name]
+
+        case rule[:content_from][:value_type]
+        when SharedTogo::Crawler2::ExtractionRule::CONTENT_FROM_FIXED_VALUE
+          fields[field_name] = rule[:content_from][:value]
+        when SharedTogo::Crawler2::ExtractionRule::CONTENT_FROM_EXTRACTED_VALUE
+          fields[field_name] = cast_result(rule, extract_from_crawl_result(rule, crawl_result))
+        end
+      end
+
+      fields
+    end
+
+    def self.extract_from_crawl_result(rule, crawl_result)
+      if rule[:source_type] == SharedTogo::Crawler2::ExtractionRule::SOURCE_TYPES[:url]
+        Timeout.timeout(REGEX_TIMEOUT) do
+          return crawl_result.url.extract_by_regexp(Regexp.new(rule[:selector]))
+        end
+      end
+
+      # source_type is html
+      return [] unless crawl_result.is_a?(Crawler::Data::CrawlResult::HTML)
+
+      # Extraction rules apply to all HTML tags
+      crawl_result.extract_by_selector(rule[:selector], [])
+    end
+
+    def self.cast_result(rule, occurances)
+      return occurances if rule[:multiple_objects_handling] == 'array'
+
+      occurances.join(' ')
+    end
+
+    def self.match_url_filters?(rule, crawl_result)
+      filters = rule.build_url_filtering_rules
+
+      # if there are no filters then all URLs match
+      return true if filters.empty?
+
+      filters.any? { |r| r.url_match?(crawl_result.url.to_s) }
     end
   end
 end
